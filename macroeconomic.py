@@ -9,6 +9,8 @@ Original file is located at
 
 # Financial News Sentiment Analysis and Market Prediction Dashboard
 # Streamlit-based AI Dashboard Code Template
+import streamlit as st
+st.set_page_config(page_title="Financial AI Dashboard", page_icon="📈", layout="wide")
 
 import streamlit as st
 import pandas as pd
