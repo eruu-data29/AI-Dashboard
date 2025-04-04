@@ -28,7 +28,6 @@ st.set_page_config(page_title="Financial AI Dashboard", page_icon="📈", layout
 
 # Load your dataset
 @st.cache_data
-
 def load_data():
     url = "https://raw.githubusercontent.com/eruu-data29/AI-Dashboard/refs/heads/main/Finance-Analysis.csv"
     df = pd.read_csv('lstm_predictions(7).csv', parse_dates=['Publication Date'])  # Replace with the correct path or URL
