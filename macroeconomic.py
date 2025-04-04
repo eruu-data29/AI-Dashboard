@@ -143,14 +143,16 @@ with tab4:
     data = data.dropna()
     X_clean = data.drop('target', axis=1)
     y_clean = data['target']
-    if not X_clean.empty and not y_clean.empty:
-        model = LinearRegression().fit(X_clean, y_clean)
-        user_input_df = pd.DataFrame([user_input])[X_clean.columns]
-        predicted_gdp = model.predict(user_input_df)[0]
-        st.metric("📊 Predicted GDP Growth", f"{predicted_gdp:.2f}%")
-    else:
-        st.warning("Not enough data to train the model after applying filters.")
+    for col in X_clean.columns:
+        if col not in user_input:
+            user_input[col] = 0.0  # Fallback to 0.0 if missing
 
+     user_input_df = pd.DataFrame([user_input])[X_clean.columns]
+
+     # Train model and predict
+     model = LinearRegression().fit(X_clean, y_clean)
+     predicted_gdp = model.predict(user_input_df)[0]
+     st.metric("📊 Predicted GDP Growth", f"{predicted_gdp:.2f}%")
 with tab5:
 # Event Study Visualization
     st.subheader("📊 Event Study: Market Impact of Unexpected News")
