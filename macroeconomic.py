@@ -126,10 +126,10 @@ with tab4:
 
     if not clean_series.empty:
         user_input[var] = st.slider(
-            var,
-            float(clean_series.min()),
-            float(clean_series.max()),
-            float(clean_series.mean())
+            label=var,
+            min_value=float(clean_series.min()),
+            max_value=float(clean_series.max()),
+            value=float(clean_series.mean())
         )
     else:
         st.warning(f"Variable '{var}' has no valid numeric values.")
@@ -145,6 +145,7 @@ with tab4:
     y_clean = data['target']
 
     model = LinearRegression().fit(X_clean, y_clean)
+    input_array = np.array([list(user_input.values())])
     predicted_gdp = model.predict([list(user_input.values())])[0]
     st.metric("📊 Predicted GDP Growth", f"{predicted_gdp:.2f}%")
 
