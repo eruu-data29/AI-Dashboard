@@ -145,9 +145,11 @@ with tab4:
     y_clean = data['target']
 
     model = LinearRegression().fit(X_clean, y_clean)
-    input_array = np.array([list(user_input.values())])
-    predicted_gdp = model.predict([list(user_input.values())])[0]
+    user_input_df = pd.DataFrame([user_input])[predictors]
+    predicted_gdp = model.predict(user_input_df)[0]
     st.metric("📊 Predicted GDP Growth", f"{predicted_gdp:.2f}%")
+    else:
+        st.warning("Not enough data to train the model after applying filters.")
 
 with tab5:
 # Event Study Visualization
