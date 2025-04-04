@@ -94,12 +94,16 @@ with tab2:
         fig = px.line(filtered_df, x='Publication Date', y=metric, title=f"{metric} Over Time")
         st.plotly_chart(fig, use_container_width=True)
 
-# 5. Stock Market Return vs. Predicted GDP
-
-    st.subheader("Stock Market Return vs. Predicted GDP")
-    fig = px.scatter(filtered_df, x='Stock Market Return (%)', y='Predicted_GDP', trendline='ols')
+    st.subheader("Stock Market Return vs. Twitter Discussions")
+    fig = px.bar(
+        filtered_df,
+        x='Twitter Discussions',
+        y='Stock Market Return (%)',
+        title='Stock Market Return (%) by Twitter Discussions',
+        color='Stock Market Return (%)',  # Optional: adds color variation
+        color_continuous_scale='Blues'    # Optional: style the color scale
+    )
     st.plotly_chart(fig, use_container_width=True)
-
 
 
 with tab3:
@@ -180,7 +184,7 @@ with tab5:
     shap_values = explainer(X_clean[:100])
     fig, ax = plt.subplots(figsize=(12, 6))
     shap.summary_plot(shap_values, X_clean[:100], show=False)
-    st.pyplot(bbox_inches='tight')
+    st.pyplot(fig, bbox_inches='tight')
 
 
 # 7. Event Type Impact
