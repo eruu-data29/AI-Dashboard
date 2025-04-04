@@ -143,11 +143,11 @@ with tab4:
     data = data.dropna()
     X_clean = data.drop('target', axis=1)
     y_clean = data['target']
-
-    model = LinearRegression().fit(X_clean, y_clean)
-    user_input_df = pd.DataFrame([user_input])[X_clean.columns]
-    predicted_gdp = model.predict(user_input_df)[0]
-    st.metric("📊 Predicted GDP Growth", f"{predicted_gdp:.2f}%")
+    if not X_clean.empty and not y_clean.empty:
+        model = LinearRegression().fit(X_clean, y_clean)
+        user_input_df = pd.DataFrame([user_input])[X_clean.columns]
+        predicted_gdp = model.predict(user_input_df)[0]
+        st.metric("📊 Predicted GDP Growth", f"{predicted_gdp:.2f}%")
     else:
         st.warning("Not enough data to train the model after applying filters.")
 
