@@ -95,9 +95,22 @@ with tab2:
         st.plotly_chart(fig, use_container_width=True)
 
 # 5. Stock Market Return vs. Predicted GDP
-    st.subheader("Stock Market Return vs. Predicted GDP")
-    fig = px.scatter(filtered_df, x='Stock Market Return (%)', y='Predicted_GDP', trendline='ols')
+st.subheader("Stock Market Return vs. Predicted GDP")
+
+# Ensure numeric values
+filtered_df['Stock Market Return (%)'] = pd.to_numeric(filtered_df['Stock Market Return (%)'], errors='coerce')
+filtered_df['Predicted_GDP'] = pd.to_numeric(filtered_df['Predicted_GDP'], errors='coerce')
+
+# Drop rows with missing values in either column
+plot_df = filtered_df[['Stock Market Return (%)', 'Predicted_GDP']].dropna()
+
+if not plot_df.empty:
+    fig = px.scatter(plot_df, x='Stock Market Return (%)', y='Predicted_GDP', trendline='ols',
+                     title="Stock Market Return vs. Predicted GDP")
     st.plotly_chart(fig, use_container_width=True)
+else:
+    st.warning("⚠️ No data to plot. Try adjusting the filters or check if data is missing.")
+
 
 with tab3:
 # 6. Stock Before vs After News
