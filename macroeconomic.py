@@ -177,7 +177,7 @@ with tab5:
     shap_values = explainer(X_clean[:100])
     fig, ax = plt.subplots(figsize=(12, 6))
     shap.summary_plot(shap_values, X_clean[:100], show=False)
-    st.pyplot(bbox_inches='tight')
+    st.pyplot(fig, bbox_inches='tight')
 
 
 # 7. Event Type Impact
