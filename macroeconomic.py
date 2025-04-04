@@ -113,29 +113,26 @@ with tab4:
 # Forecast Based on User Inputs
     st.subheader("Forecast Based on User Inputs")
     user_input = {}
-    predictors= ['Consumer Confidence Index', 'Crude Oil Prices (USD/Barrel)', 'Gold Prices (USD/Oz)',
-                 'S&P 500 Change (%)', 'VIX Value', 'Foreign Exchange Rate', 'Interest Rate (%)',
-                 'Inflation Rate (%)']
+
+    predictors = [
+        'Consumer Confidence Index', 'Crude Oil Prices (USD/Barrel)',
+        'Gold Prices (USD/Oz)', 'S&P 500 Change (%)', 'VIX Value',
+        'Foreign Exchange Rate', 'Interest Rate (%)', 'Inflation Rate (%)'
+    ]
 
     for var in predictors:
-    # Convert to numeric and handle errors by coercing non-numeric values to NaN
         numeric_series = pd.to_numeric(df[var], errors='coerce')
-
-    # Drop NaNs to compute stats
         clean_series = numeric_series.dropna()
-
-    if not clean_series.empty:
-        user_input[var] = st.slider(
-            label=var,
-            min_value=float(clean_series.min()),
-            max_value=float(clean_series.max()),
-            value=float(clean_series.mean())
-        )
-    else:
-        st.warning(f"Variable '{var}' has no valid numeric values.")
-        user_input[var] = 0.0  # default fallback
-
-
+        if not clean_series.empty:
+            user_input[var] = st.slider(
+                var,
+                float(clean_series.min()),
+                float(clean_series.max()),
+                float(clean_series.mean())
+            )
+        else:
+            st.warning(f"Variable '{var}' has no valid numeric values.")
+            user_input[var] = 0.0  # Default fallback
     X = df[predictors]
     y = df['Predicted_GDP']
     data = X.copy()
@@ -143,14 +140,15 @@ with tab4:
     data = data.dropna()
     X_clean = data.drop('target', axis=1)
     y_clean = data['target']
+    # Ensure all expected features are in the user input
     for col in X_clean.columns:
         if col not in user_input:
-            user_input[col] = 0.0  # Fallback to 0.0 if missing
-            user_input_df = pd.DataFrame([user_input])[X_clean.columns]
-     # Train model and predict
-     model = LinearRegression().fit(X_clean, y_clean)
-     predicted_gdp = model.predict(user_input_df)[0]
-     st.metric("📊 Predicted GDP Growth", f"{predicted_gdp:.2f}%")
+            user_input[col] = 0.0
+    user_input_df = pd.DataFrame([user_input])[X_clean.columns]
+    model = LinearRegression().fit(X_clean, y_clean)
+    predicted_gdp = model.predict(user_input_df)[0]
+    st.metric("📊 Predicted GDP Growth", f"{predicted_gdp:.2f}%")
+
 with tab5:
 # Event Study Visualization
     st.subheader("📊 Event Study: Market Impact of Unexpected News")
