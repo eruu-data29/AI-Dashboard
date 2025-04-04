@@ -146,8 +146,7 @@ with tab4:
     for col in X_clean.columns:
         if col not in user_input:
             user_input[col] = 0.0  # Fallback to 0.0 if missing
-
-     user_input_df = pd.DataFrame([user_input])[X_clean.columns]
+            user_input_df = pd.DataFrame([user_input])[X_clean.columns]
      # Train model and predict
      model = LinearRegression().fit(X_clean, y_clean)
      predicted_gdp = model.predict(user_input_df)[0]
