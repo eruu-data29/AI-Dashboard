@@ -40,15 +40,30 @@ st.title("Financial News Sentiment Analysis and Market Prediction")
 
 # Sidebar Filters
 st.sidebar.header("Filters")
-start_date = st.sidebar.date_input("Start Date", df['Publication Date'].min())
-end_date = st.sidebar.date_input("End Date", df['Publication Date'].max())
-sentiment_filter = st.sidebar.multiselect("Select Sentiment", ['positive','negative'], default=['positive','negative'])
+default_start = datetime.date(2022, 7, 13)
+default_end = datetime.date(2022, 7, 28)
 
-filtered_df = df[(df['Publication Date'] >= pd.to_datetime(start_date)) &
-                 (df['Publication Date'] <= pd.to_datetime(end_date)) &
-                 (df['News Sentiment'].isin(sentiment_filter))]
+start_date = st.sidebar.date_input("Start Date", default_start)
+end_date = st.sidebar.date_input("End Date", default_end)
 
+# Sentiment Filter Options
+sentiment_options = {
+    "Positive Only": ["positive"],
+    "Negative Only": ["negative"],
+    "Both": ["positive", "negative"]
+}
+sentiment_choice = st.sidebar.radio("Select News Sentiment", list(sentiment_options.keys()), index=2)
+sentiment_filter = sentiment_options[sentiment_choice]
+
+# Apply Filters
+filtered_df = df[
+    (df['Publication Date'] >= pd.to_datetime(start_date)) &
+    (df['Publication Date'] <= pd.to_datetime(end_date)) &
+    (df['News Sentiment'].isin(sentiment_filter))
+]
 user_input = {}
+color_map = {'positive': 'blue', 'negative': 'red'}
+
 
 # Organize UI into Tabs
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
