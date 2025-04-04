@@ -12,7 +12,6 @@ Original file is located at
 import streamlit as st
 st.set_page_config(page_title="Financial AI Dashboard", page_icon="📈", layout="wide")
 
-import streamlit as st
 import pandas as pd
 import plotly.express as px
 import seaborn as sns
@@ -26,8 +25,6 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-st.set_page_config(page_title="Financial AI Dashboard", page_icon="📈", layout="wide")
-
 # Load your dataset
 @st.cache_data
 def load_data():
@@ -38,10 +35,6 @@ def load_data():
 
 with st.spinner("Loading data..."):
     df = load_data()
-
-
-st.set_page_config(layout="wide")
-
 # Title
 st.title("Financial News Sentiment Analysis and Market Prediction")
 
