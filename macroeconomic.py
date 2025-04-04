@@ -155,7 +155,7 @@ with tab5:
     fig = px.box(filtered_df, x='Event Type', y='VIX Value', title="Market Volatility by Event Type")
     st.plotly_chart(fig, use_container_width=True)
 
-    shap.initjs()
+    #shap.initjs()
 # 10. SHAP for Interpretability
     st.subheader("SHAP Explanation for Market Forecast")
     explainer = shap.Explainer(model, X_clean)
