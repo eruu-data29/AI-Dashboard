@@ -7,12 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1yNw3SBCLGml1K83Eal3ZddYqdAbDmsgJ
 """
 
-!pip install streamlit  # Only needed if you test Streamlit components via magic commands
-!pip install wordcloud
-!pip install plotly
-!pip install textblob
-!pip install shap
-
 # Financial News Sentiment Analysis and Market Prediction Dashboard
 # Streamlit-based AI Dashboard Code Template
 
