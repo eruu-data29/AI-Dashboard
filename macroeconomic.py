@@ -145,7 +145,7 @@ with tab4:
     y_clean = data['target']
 
     model = LinearRegression().fit(X_clean, y_clean)
-    user_input_df = pd.DataFrame([user_input])[predictors]
+    user_input_df = pd.DataFrame([user_input])[X_clean.columns]
     predicted_gdp = model.predict(user_input_df)[0]
     st.metric("📊 Predicted GDP Growth", f"{predicted_gdp:.2f}%")
     else:
