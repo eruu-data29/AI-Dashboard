@@ -40,6 +40,8 @@ st.title("Financial News Sentiment Analysis and Market Prediction")
 
 # Sidebar Filters
 st.sidebar.header("Filters")
+min_date = datetime.date(2022, 7, 6)
+max_date = datetime.date(2025, 3, 31)
 default_start = datetime.date(2022, 7, 13)
 default_end = datetime.date(2022, 7, 28)
 
@@ -62,8 +64,6 @@ filtered_df = df[
     (df['News Sentiment'].isin(sentiment_filter))
 ]
 user_input = {}
-color_map = {'positive': 'blue', 'negative': 'red'}
-
 
 # Organize UI into Tabs
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
@@ -95,21 +95,11 @@ with tab2:
         st.plotly_chart(fig, use_container_width=True)
 
 # 5. Stock Market Return vs. Predicted GDP
-st.subheader("Stock Market Return vs. Predicted GDP")
 
-# Ensure numeric values
-filtered_df['Stock Market Return (%)'] = pd.to_numeric(filtered_df['Stock Market Return (%)'], errors='coerce')
-filtered_df['Predicted_GDP'] = pd.to_numeric(filtered_df['Predicted_GDP'], errors='coerce')
-
-# Drop rows with missing values in either column
-plot_df = filtered_df[['Stock Market Return (%)', 'Predicted_GDP']].dropna()
-
-if not plot_df.empty:
-    fig = px.scatter(plot_df, x='Stock Market Return (%)', y='Predicted_GDP', trendline='ols',
-                     title="Stock Market Return vs. Predicted GDP")
+    st.subheader("Stock Market Return vs. Predicted GDP")
+    fig = px.scatter(filtered_df, x='Stock Market Return (%)', y='Predicted_GDP', trendline='ols')
     st.plotly_chart(fig, use_container_width=True)
-else:
-    st.warning("⚠️ No data to plot. Try adjusting the filters or check if data is missing.")
+
 
 
 with tab3:
